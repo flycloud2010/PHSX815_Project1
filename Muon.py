@@ -19,10 +19,10 @@ if __name__ == "__main__":
     seed = 5555
 
     # default simulation time. 
-    simtime = 20
+    Nmeas = 20
 
     #default events
-    events = 10000
+    Nexp = 10000
 
     # default Muon lifetime
     life = 2.2e-6
@@ -42,16 +42,13 @@ if __name__ == "__main__":
         life = float(sys.argv[p+1])
         
     if '-events' in sys.argv:
-        p = sys.argv.index('-sim')
-        simtim = int(sys.argv[p+1])
+        p = sys.argv.index('-Nexp')
+        Nexp = int(sys.argv[p+1])
         
-    if '-x' in sys.argv:
-        p = sys.argv.index('-x')
-        x = int(sys.argv[p+1])
+    if '-meas' in sys.argv:
+        p = sys.argv.index('-Nmeas')
+        Nmeas = int(sys.argv[p+1])
 
-    if '-y' in sys.argv:
-        p = sys.argv.index('-y')
-        y = int(sys.argv[p+1])
         
     if '-output' in sys.argv:
         p = sys.argv.index('-output')
@@ -61,38 +58,11 @@ if __name__ == "__main__":
     # class instance of our Random class using seed
     Muons = Generator(seed)
 
-    #Lists to store values
-    xcoord=[]
-    ycoord=[]
-    decay_times=[]
-    detection=[]
-
-    for i in range(events):
-        values = Muons.Simulate(simtime, life, x,y)
-        xcoord.append(values[1][0])
-        ycoord.append(values[1][1])
-        detection.append(values[0][0])
-        decay_times.append(values[0][1])
-    
-    plt.hist(decay_times,  50, facecolor='r', alpha=0.75, label='Decay Events')
-
-    # plot formating options
-    plt.xlabel('Decay Times')
-    plt.ylabel('Events')
-    plt.title('Muon Lifetime')
-    plt.grid(True)
-    plt.legend()
-    #ax = plt.gca()
-    #ax.set_ylim([0.8, 1.2])
-    # show figure (program only ends once closed
-    plt.show()
-    plt.savefig("MuonDecay_Histogram.png")
-
-
-    # Writing to a file
-    f = open("Simulation_Data.csv", "w")
-    f.write("Event Number,Lifetime,X_Pos, Y_Pos, Time of Detection\n")
-    for i in range(events):
-        f.write(i,',',decay_times[i],',',xcoord[i],',',ycoord[i],',',detection[i],'\n')
-
-    f.close()
+    if doOutputFile:
+        outfile = open(OutputFileName, 'w')
+        outfile.write(str(life)+" \n")
+        for e in range(0,Nexp):
+            for t in range(0,Nmeas):
+                outfile.write(str(test.Simulate(20,rate1,10,10))+" ")
+            outfile.write(" \n")
+        outfile.close()

@@ -76,6 +76,8 @@ class Generator:
         time2 = self.Exponential(life_avg)
         return [time1,time2]
 
+    # Creates random coordinates on the detector using uniform PDF
+    #Will be used in future variations of the project.
     def Cord(self, x =10, y = 10):
         if x<0 or y<0:
             return [10,10]
@@ -94,7 +96,8 @@ class Generator:
 
         return [xr,yr]
 
+    #Final function that can be called to simulate 
     def Simulate(self, simtime, life_avg, x, y):
         Cord = self.Cord(x,y)
         sim = self.Time(simtime,life_avg)
-        return [sim, Cord]
+        return sim[1]
